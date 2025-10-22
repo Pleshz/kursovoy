@@ -1,31 +1,18 @@
 <?php
-require_once "../../back/config/Connection.php";
-session_start();
+require_once __DIR__ . '/../../back/services/AuthService.php';
 
-if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    $email = $_POST['email'];
-    $password = $_POST['password'];
+$auth = new AuthService();
+$message = '';
 
-    $query = "SELECT * FROM users WHERE email = '$email' LIMIT 1";
-    $result = mysqli_query($db, $query);
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $login = trim($_POST['login']);
+    $password = trim($_POST['password']);
 
-    if ($result && mysqli_num_rows($result) > 0) {
-        $user = mysqli_fetch_assoc($result);
-        if (password_verify($password, $user['password'])) {
-            $_SESSION['user_id'] = $user['id'];
-            $_SESSION['role'] = $user['role'];
-
-            if ($user['role'] === 'admin') {
-                header("Location: admin/dashboard.php");
-            } else {
-                header("Location: ../index.php");
-            }
-            exit;
-        } else {
-            echo "Неверный пароль!";
-        }
+    if ($auth->login($login, $password)) {
+        header("Location: dashboard.php");
+        exit;
     } else {
-        echo "Пользователь не найден!";
+        $message = "Неверный логин или пароль.";
     }
 }
 ?>
@@ -33,18 +20,24 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>Вход</title>
+    <title>Авторизация — RentCarSys</title>
 </head>
 <body>
     <h2>Авторизация</h2>
-    <form method="POST">
-        <label>Email:</label><br>
-        <input type="email" name="email" required><br><br>
+    <?php if ($message): ?>
+        <p style="color:red;"><?= htmlspecialchars($message) ?></p>
+    <?php endif; ?>
+
+    <form method="POST" action="">
+        <label>Логин:</label><br>
+        <input type="text" name="login" required><br><br>
 
         <label>Пароль:</label><br>
         <input type="password" name="password" required><br><br>
 
         <button type="submit">Войти</button>
     </form>
+
+    <p>Нет аккаунта? <a href="register.php">Зарегистрироваться</a></p>
 </body>
 </html>
