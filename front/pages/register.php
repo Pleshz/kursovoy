@@ -1,20 +1,30 @@
 <?php
-require_once "../../back/config/Connection.php";
+require_once __DIR__ . '/../../back/services/UserService.php';
+require_once __DIR__ . '/../../back/services/AuthService.php';
 
-if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    $login = $_POST['login'];
-    $email = $_POST['email'];
-    $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
-    $role = 'client';
+$userService = new UserService();
+$auth = new AuthService();
 
-    $query = "INSERT INTO users (login, email, password, role) VALUES ('$login', '$email', '$password', '$role')";
-    $result = mysqli_query($db, $query);
+$message = '';
 
-    if ($result) {
-        header("Location: login.php");
-        exit;
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $login = trim($_POST['login']);
+    $email = trim($_POST['email']);
+    $password = trim($_POST['password']);
+    $confirm = trim($_POST['confirm']);
+
+    if ($password !== $confirm) {
+        $message = "Пароли не совпадают.";
+    } elseif ($userService->userExists($login, $email)) {
+        $message = "Такой логин или email уже зарегистрирован.";
     } else {
-        echo "Ошибка регистрации: " . mysqli_error($db);
+        if ($userService->registerUser($login, $email, $password)) {
+            $auth->login($login, $password);
+            header("Location: dashboard.php");
+            exit;
+        } else {
+            $message = "Ошибка при регистрации. Попробуйте позже.";
+        }
     }
 }
 ?>
@@ -22,12 +32,16 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>Регистрация</title>
-    <link rel="stylesheet" href="../assets/css/style.css">
+    <title>Регистрация — RentCarSys</title>
 </head>
 <body>
     <h2>Регистрация</h2>
-    <form method="POST">
+
+    <?php if ($message): ?>
+        <p style="color:red;"><?= htmlspecialchars($message) ?></p>
+    <?php endif; ?>
+
+    <form method="POST" action="">
         <label>Логин:</label><br>
         <input type="text" name="login" required><br><br>
 
@@ -37,7 +51,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         <label>Пароль:</label><br>
         <input type="password" name="password" required><br><br>
 
+        <label>Подтвердите пароль:</label><br>
+        <input type="password" name="confirm" required><br><br>
+
         <button type="submit">Зарегистрироваться</button>
     </form>
+
+    <p>Уже есть аккаунт? <a href="login.php">Войти</a></p>
 </body>
 </html>
