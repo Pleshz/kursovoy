@@ -32,31 +32,40 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>Регистрация — RentCarSys</title>
+    <title>Регистрация | RentCarSys</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
 </head>
 <body>
-    <h2>Регистрация</h2>
+    <div class="auth-card">
+        <div class="logo">
+            <img src="../assets/img/logo.png" alt="RentCarSys">
+        </div>
+        <h2>Регистрация</h2>
+        <p class="subtitle">Создайте аккаунт и начните аренду авто</p>
 
-    <?php if ($message): ?>
-        <p style="color:red;"><?= htmlspecialchars($message) ?></p>
-    <?php endif; ?>
+        <?php if (isset($message) && $message): ?>
+            <div class="message"><?= htmlspecialchars($message) ?></div>
+        <?php endif; ?>
 
-    <form method="POST" action="">
-        <label>Логин:</label><br>
-        <input type="text" name="login" required><br><br>
+        <form method="POST" action="">
+            <label>Логин</label>
+            <input type="text" name="login" placeholder="Ваш логин" required>
 
-        <label>Email:</label><br>
-        <input type="email" name="email" required><br><br>
+            <label>Email</label>
+            <input type="email" name="email" placeholder="example@mail.com" required>
 
-        <label>Пароль:</label><br>
-        <input type="password" name="password" required><br><br>
+            <label>Пароль</label>
+            <input type="password" name="password" placeholder="Придумайте пароль" required>
 
-        <label>Подтвердите пароль:</label><br>
-        <input type="password" name="confirm" required><br><br>
+            <label>Подтвердите пароль</label>
+            <input type="password" name="confirm" placeholder="Повторите пароль" required>
 
-        <button type="submit">Зарегистрироваться</button>
-    </form>
+            <button type="submit">Создать аккаунт</button>
+        </form>
 
-    <p>Уже есть аккаунт? <a href="login.php">Войти</a></p>
+        <div class="bottom-text">
+            Уже есть аккаунт? <a href="login.php">Войти</a>
+        </div>
+    </div>
 </body>
 </html>

@@ -1,6 +1,5 @@
 <?php
 require_once __DIR__ . '/../../back/services/AuthService.php';
-
 $auth = new AuthService();
 $message = '';
 
@@ -20,24 +19,34 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>Авторизация — RentCarSys</title>
+    <title>Авторизация</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
 </head>
 <body>
-    <h2>Авторизация</h2>
-    <?php if ($message): ?>
-        <p style="color:red;"><?= htmlspecialchars($message) ?></p>
-    <?php endif; ?>
+    <div class="auth-card">
+        <div class="logo">
+            <img src="../assets/img/logo.png" alt="RentCarSys">
+        </div>
+        <h2>Вход в систему</h2>
+        <p class="subtitle">Добро пожаловать в панель каршеринга</p>
 
-    <form method="POST" action="">
-        <label>Логин:</label><br>
-        <input type="text" name="login" required><br><br>
+        <?php if (isset($message) && $message): ?>
+            <div class="message"><?= htmlspecialchars($message) ?></div>
+        <?php endif; ?>
 
-        <label>Пароль:</label><br>
-        <input type="password" name="password" required><br><br>
+        <form method="POST" action="">
+            <label>Логин</label>
+            <input type="text" name="login" placeholder="Введите логин" required>
 
-        <button type="submit">Войти</button>
-    </form>
+            <label>Пароль</label>
+            <input type="password" name="password" placeholder="Введите пароль" required>
 
-    <p>Нет аккаунта? <a href="register.php">Зарегистрироваться</a></p>
+            <button type="submit">Войти</button>
+        </form>
+
+        <div class="bottom-text">
+            Нет аккаунта? <a href="register.php">Зарегистрироваться</a>
+        </div>
+    </div>
 </body>
 </html>
