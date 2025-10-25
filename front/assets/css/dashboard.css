@@ -1,0 +1,128 @@
+body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    background-color: #f4f7fb;
+    color: #333;
+}
+
+.header {
+    background: linear-gradient(90deg, #4a90e2, #007bff);
+    color: #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 40px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.logo img {
+    width: 40px;
+    height: 40px;
+}
+
+.nav a {
+    color: #fff;
+    text-decoration: none;
+    margin-left: 20px;
+    font-weight: 500;
+    transition: opacity 0.2s;
+}
+
+.nav a:hover,
+.nav a.active {
+    opacity: 0.8;
+}
+
+.logout {
+    background: #ff5252;
+    padding: 6px 12px;
+    border-radius: 6px;
+    transition: background 0.2s;
+}
+
+.logout:hover {
+    background: #ff3333;
+}
+
+.content {
+    padding: 40px;
+}
+
+.welcome {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.welcome h2 {
+    font-size: 28px;
+    margin-bottom: 10px;
+}
+
+.main-btn {
+    display: inline-block;
+    margin-top: 20px;
+    background: linear-gradient(90deg, #ffb703, #ff9800);
+    color: #fff;
+    padding: 12px 24px;
+    border-radius: 12px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: background 0.3s, transform 0.2s;
+}
+
+.main-btn:hover {
+    background: linear-gradient(90deg, #ff9800, #ff7b00);
+    transform: translateY(-2px);
+}
+
+.info-cards {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.card {
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+    padding: 25px;
+    width: 280px;
+    text-align: center;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+}
+
+.card h3 {
+    color: #007bff;
+}
+
+.card p {
+    color: #555;
+    font-size: 14px;
+    margin: 10px 0 15px;
+}
+
+.link {
+    text-decoration: none;
+    color: #ff9800;
+    font-weight: 600;
+}
+
+.footer {
+    text-align: center;
+    color: #999;
+    padding: 20px 0;
+    margin-top: 50px;
+    font-size: 14px;
+}

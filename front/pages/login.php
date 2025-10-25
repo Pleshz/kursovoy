@@ -25,12 +25,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <body>
     <div class="auth-card">
         <div class="logo">
-            <img src="../assets/img/logo.png" alt="RentCarSys">
+            <img src="../assets/img/logo.png" alt="logo">
         </div>
         <h2>Вход в систему</h2>
-        <p class="subtitle">Добро пожаловать в панель каршеринга</p>
+        <p class="subtitle">Добро пожаловать в лучшую систему каршеринга</p>
 
-        <?php if (isset($message) && $message): ?>
+        <?php if ($message): ?>
             <div class="message"><?= htmlspecialchars($message) ?></div>
         <?php endif; ?>
 

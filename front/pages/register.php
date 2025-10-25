@@ -32,13 +32,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>Регистрация | RentCarSys</title>
+    <title>Регистрация</title>
     <link rel="stylesheet" href="../assets/css/style.css">
 </head>
 <body>
     <div class="auth-card">
         <div class="logo">
-            <img src="../assets/img/logo.png" alt="RentCarSys">
+            <img src="../assets/img/logo.png" alt="logo">
         </div>
         <h2>Регистрация</h2>
         <p class="subtitle">Создайте аккаунт и начните аренду авто</p>
