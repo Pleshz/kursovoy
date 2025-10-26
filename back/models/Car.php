@@ -8,6 +8,7 @@ class Car
     public float $price_per_hour;
     public string $type;
     public string $status;
+    public int $parking_id;
     public string $created_at;
     public string $updated_at;
 
@@ -19,6 +20,7 @@ class Car
         float $price_per_hour = 0.0,
         string $type = '',
         string $status = 'available',
+        int $parking_id = 0,
         string $created_at = '',
         string $updated_at = ''
     ) {
@@ -29,6 +31,7 @@ class Car
         $this->price_per_hour = $price_per_hour;
         $this->type = $type;
         $this->status = $status;
+        $this->parking_id = $parking_id;
         $this->created_at = $created_at;
         $this->updated_at = $updated_at;
     }

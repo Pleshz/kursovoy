@@ -1,7 +1,8 @@
 <?php
-require_once __DIR__ . '/AuthService.php';
-$auth = new AuthService();
-$auth->logout();
+session_start();
+session_unset();
+session_destroy();
+
 header("Location: ../../front/pages/login.php");
 exit;
 ?>
