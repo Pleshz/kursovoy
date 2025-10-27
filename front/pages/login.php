@@ -8,7 +8,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $password = trim($_POST['password']);
 
     if ($auth->login($login, $password)) {
-        header("Location: dashboard.php");
+        session_start();
+        if ($_SESSION['role'] === 'admin') {
+            header("Location: ../admin/dashboard.php"); 
+        } else {
+            header("Location: dashboard.php"); 
+        }
         exit;
     } else {
         $message = "Неверный логин или пароль.";

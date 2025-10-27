@@ -31,7 +31,6 @@ $role = $_SESSION['role'];
         <section class="welcome">
             <h2>Здравствуйте, <?= htmlspecialchars($login) ?></h2>
             <p>Добро пожаловать в систему каршеринга RentCar.</p>
-            <p>Вы вошли как: <strong><?= $role === 'admin' ? 'Администратор' : 'Клиент' ?></strong></p>
             <a href="cars.php" class="main-btn">Посмотреть автомобили</a>
         </section>
 
