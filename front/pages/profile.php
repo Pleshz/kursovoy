@@ -27,24 +27,24 @@ $ordersQuery = mysqli_query($db, "
 </head>
 <body>
 <header class="header">
-    <div class="logo">
-        <img src="../assets/img/logo.png" alt="logo">
-        <h1>RentCar</h1>
-    </div>
-    <nav class="nav">
-        <a href="dashboard.php">Главная</a>
-        <a href="cars.php">Автомобили</a>
-        <a href="profile.php" class="active">Профиль</a>
-        <a href="../../back/services/logout.php" class="logout">Выйти</a>
-    </nav>
-</header>
+        <div class="logo">
+            <img src="../assets/img/logo.png" alt="logo">
+            <h1>RentCar</h1>
+        </div>
+        <nav class="nav">
+            <a href="dashboard.php">Главная</a>
+            <a href="cars.php">Автомобили</a>
+            <a href="profile.php" class="active">Профиль</a>
+            <a href="../../back/services/logout.php" class="logout">Выйти</a>
+        </nav>
+    </header>
 
 <main class="content">
     <section class="profile-section">
         <h2>Мои данные</h2>
         <form action="../../back/services/update_profile.php" method="POST" class="profile-form">
             <label>Имя</label>
-            <input type="text" name="name" value="<?= htmlspecialchars($user['name']) ?>" required>
+            <input type="text" name="login" value="<?= htmlspecialchars($user['login']) ?>" required>
 
             <label>Email</label>
             <input type="email" name="email" value="<?= htmlspecialchars($user['email']) ?>" required>

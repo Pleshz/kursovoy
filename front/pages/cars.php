@@ -42,7 +42,7 @@ while ($row = mysqli_fetch_assoc($result)) {
     <header class="header">
         <div class="logo">
             <img src="../assets/img/logo.png" alt="logo">
-            <h1>RentCarSys</h1>
+            <h1>RentCar</h1>
         </div>
         <nav class="nav">
             <a href="dashboard.php">Главная</a>
