@@ -19,7 +19,7 @@ $parkingCount = mysqli_fetch_assoc(mysqli_query($db, "SELECT COUNT(*) as cnt FRO
 <header class="admin-header">
     <div class="logo">
         <img src="../assets/img/logo.png" alt="logo">
-        <h1>RentCar</h1>
+        <h1>Панель администратора</h1>
     </div>
     <nav class="nav">
         <a href="dashboard.php" class="active">Главная</a>

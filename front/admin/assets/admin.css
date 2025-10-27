@@ -11,7 +11,7 @@ body {
     align-items: center;
     background: #ffffff;
     padding: 15px 40px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
 }
 
 .logo {
@@ -55,7 +55,7 @@ body {
     background: white;
     border-radius: 12px;
     padding: 20px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
     text-align: center;
 }
 
@@ -68,4 +68,68 @@ body {
     font-size: 28px;
     font-weight: bold;
     color: #0078d7;
+}
+
+.status {
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-weight: 500;
+    font-size: 13px;
+    color: white;
+}
+
+.status.available {
+    background-color: #22c55e;
+}
+
+.status.busy {
+    background-color: #ef4444;
+}
+
+.admin-form {
+    display: flex;
+    flex-direction: column;
+    max-width: 500px;
+    gap: 12px;
+    background: #fff;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.admin-form label {
+    font-weight: 600;
+    color: #333;
+}
+
+.admin-form input,
+.admin-form select {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
+}
+
+.form-buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.btn-primary {
+    background-color: #0078d7;
+    color: white;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.btn-secondary {
+    background-color: #e5e7eb;
+    color: #333;
+    padding: 10px 16px;
+    border-radius: 6px;
+    text-decoration: none;
 }
