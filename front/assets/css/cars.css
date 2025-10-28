@@ -6,33 +6,48 @@ body {
 }
 
 .header {
+    background: linear-gradient(90deg, #4a90e2, #007bff);
+    color: #fff;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: white;
-    padding: 15px 40px;
-    border-bottom: 1px solid #eaeaea;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    padding: 12px 40px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
 .logo img {
+    width: 40px;
     height: 40px;
-    margin-right: 10px;
-    vertical-align: middle;
 }
 
 .nav a {
-    margin-left: 20px;
+    color: #fff;
     text-decoration: none;
-    color: #444;
-    transition: 0.2s;
+    margin-left: 20px;
+    font-weight: 500;
+    transition: opacity 0.2s;
 }
+
+.nav a:hover,
 .nav a.active {
-    color: #0078d7;
-    font-weight: 600;
+    opacity: 0.8;
 }
-.nav a:hover {
-    color: #0078d7;
+
+.logout {
+    background: #ff5252;
+    padding: 6px 12px;
+    border-radius: 6px;
+    transition: background 0.2s;
+}
+
+.logout:hover {
+    background: #ff3333;
 }
 
 .content {

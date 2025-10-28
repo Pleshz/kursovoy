@@ -24,7 +24,7 @@ $parkingCount = mysqli_fetch_assoc(mysqli_query($db, "SELECT COUNT(*) as cnt FRO
     <nav class="nav">
         <a href="dashboard.php" class="active">Главная</a>
         <a href="cars.php">Автомобили</a>
-        <a href="parking.php">Парковки</a>
+        <a href="parking_zones.php">Парковки</a>
         <a href="users.php">Пользователи</a>
         <a href="orders.php">Заказы</a>
         <a href="../../back/services/logout.php" class="logout">Выйти</a>

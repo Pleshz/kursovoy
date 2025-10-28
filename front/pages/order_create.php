@@ -13,9 +13,9 @@ $car_id = intval($_GET['car_id']);
 $query = "
     SELECT 
         cars.id, cars.brand, cars.model, cars.price_per_hour, cars.status,
-        parking_zone.id AS parking_id, parking_zone.address AS parking_address
+        parking_zones.id AS parking_id, parking_zones.address AS parking_address
     FROM cars
-    LEFT JOIN parking_zone ON cars.parking_zone_id = parking_zone.id
+    LEFT JOIN parking_zones ON cars.parking_id = parking_zones.id
     WHERE cars.id = ?
 ";
 $stmt = mysqli_prepare($db, $query);
@@ -28,7 +28,7 @@ if (!$car) {
     die("Ошибка: автомобиль не найден.");
 }
 
-$zones = mysqli_query($db, "SELECT id, address FROM parking_zone");
+$zones = mysqli_query($db, "SELECT id, address FROM parking_zones");
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $user_id = $_SESSION['user_id'];

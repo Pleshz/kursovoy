@@ -35,7 +35,7 @@ $cars = mysqli_fetch_all($result, MYSQLI_ASSOC);
     </div>
     <nav class="nav">
         <a href="dashboard.php">Главная</a>
-        <a href="cars.php" class="active">Машины</a>
+        <a href="cars.php" class="active">Автомобили</a>
         <a href="parking_zones.php">Парковки</a>
         <a href="users.php">Пользователи</a>
         <a href="orders.php">Заказы</a>

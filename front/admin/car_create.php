@@ -22,7 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             INSERT INTO cars (brand, model, country, price_per_hour, type, status, parking_id, created_at, updated_at)
             VALUES (?, ?, ?, ?, ?, ?, ?, NOW(), NOW())
         ");
-        mysqli_stmt_bind_param($stmt, 'sssds si', $brand, $model, $country, $price, $type, $status, $parking_id);
+        mysqli_stmt_bind_param($stmt, 'sssdssi', $brand, $model, $country, $price, $type, $status, $parking_id);
 
         if (mysqli_stmt_execute($stmt)) {
             header("Location: cars.php?success=1");
