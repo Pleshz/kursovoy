@@ -43,6 +43,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta charset="UTF-8">
     <title>Добавить пользователя</title>
     <link rel="stylesheet" href="assets/admin.css">
+    <style>
+        .admin-content { padding-left: 40px}
+    </style>
 </head>
 <body>
 <header class="admin-header">

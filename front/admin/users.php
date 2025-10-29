@@ -34,10 +34,9 @@ while ($row = mysqli_fetch_assoc($result)) {
     </nav>
 </header>
 
-<main class="admin-content">
-    <h2>Пользователи</h2>
-
-    <div class="actions">
+<main class="content">
+    <div class="page-header">
+        <h2>Пользователи</h2>
         <a href="user_create.php" class="btn-primary">Добавить пользователя</a>
     </div>
 
@@ -60,10 +59,10 @@ while ($row = mysqli_fetch_assoc($result)) {
                 <td><?= htmlspecialchars($user['email']) ?></td>
                 <td><?= htmlspecialchars($user['role']) ?></td>
                 <td><?= $user['created_at'] ?></td>
-                <td>
-                    <a href="user_edit.php?id=<?= $user['id'] ?>" class="btn-small">✏️</a>
+                <td class="actions">
+                    <a href="user_edit.php?id=<?= $user['id'] ?>" class="btn-edit">✏️</a>
                     <a href="../../back/services/user_delete.php?id=<?= $user['id'] ?>" 
-                       class="btn-small delete-btn"
+                       class="btn-delete"
                        onclick="return confirm('Удалить пользователя <?= htmlspecialchars($user['login']) ?>?');">🗑️</a>
                 </td>
             </tr>

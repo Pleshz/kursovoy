@@ -33,22 +33,32 @@ $zones = mysqli_query($db, "SELECT id, address FROM parking_zones");
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $user_id = $_SESSION['user_id'];
     $car_id = intval($_POST['car_id']);
-    $start_zone_id = intval($_POST['start_zone_id']);
-    $end_zone_id = intval($_POST['end_zone_id']);
+    $start_parking_id = intval($_POST['start_parking_id']);
+    $end_parking_id = intval($_POST['end_parking_id']);
     $hours = floatval($_POST['hours']);
     $total_price = $hours * $car['price_per_hour'];
 
+    $end_time = date("Y-m-d H:i:s", strtotime("+$hours hour"));
+
     $insert = "
-        INSERT INTO orders (user_id, car_id, start_zone_id, end_zone_id, start_time, status, total_price)
-        VALUES (?, ?, ?, ?, NOW(), 'active', ?)
+        INSERT INTO orders 
+        (user_id, car_id, start_parking_id, end_parking_id, start_time, end_time, status, total_price)
+        VALUES (?, ?, ?, ?, NOW(), ?, 'pending', ?)
     ";
     $stmt = mysqli_prepare($db, $insert);
-    mysqli_stmt_bind_param($stmt, "iiidd", $user_id, $car_id, $start_zone_id, $end_zone_id, $total_price);
+    mysqli_stmt_bind_param($stmt, "iiiisd", $user_id, $car_id, $start_parking_id, $end_parking_id, $end_time, $total_price);
     mysqli_stmt_execute($stmt);
 
-    mysqli_query($db, "UPDATE cars SET status = 'unavailable' WHERE id = $car_id");
+    $updateCar = "
+        UPDATE cars 
+        SET status = 'unavailable', parking_id = ? 
+        WHERE id = ?
+    ";
+    $stmt = mysqli_prepare($db, $updateCar);
+    mysqli_stmt_bind_param($stmt, "ii", $end_parking_id, $car_id);
+    mysqli_stmt_execute($stmt);
 
-    header("Location: orders.php?success=1");
+    header("Location: dashboard.php");
     exit;
 }
 ?>
@@ -63,7 +73,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <header class="header">
     <div class="logo">
         <img src="../assets/img/logo.png" alt="logo">
-        <h1>RentCar</h1>
+        <h1>RentCarSys</h1>
     </div>
     <nav class="nav">
         <a href="dashboard.php">Главная</a>
@@ -85,10 +95,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     <form method="POST" class="order-form">
         <input type="hidden" name="car_id" value="<?= $car['id'] ?>">
-        <input type="hidden" name="start_zone_id" value="<?= $car['parking_id'] ?>">
+        <input type="hidden" name="start_parking_id" value="<?= $car['parking_id'] ?>">
 
-        <label for="end_zone_id">Выберите парковку для возврата:</label>
-        <select name="end_zone_id" id="end_zone_id" required>
+        <label for="end_parking_id">Выберите парковку для возврата:</label>
+        <select name="end_parking_id" id="end_parking_id" required>
             <option value="">— Выберите парковку —</option>
             <?php while ($zone = mysqli_fetch_assoc($zones)): ?>
                 <option value="<?= $zone['id'] ?>"><?= htmlspecialchars($zone['address']) ?></option>

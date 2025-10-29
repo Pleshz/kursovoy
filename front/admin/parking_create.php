@@ -3,53 +3,21 @@ require_once __DIR__ . '/../../back/services/auth_admin.php';
 require_once __DIR__ . '/../../back/config/Connection.php';
 checkAdminAccess();
 
-$message = '';
-$errors = [];
-
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $address = trim($_POST['address'] ?? '');
-    $coordinate_x = trim($_POST['coordinate_x'] ?? '');
-    $coordinate_y = trim($_POST['coordinate_y'] ?? '');
-    $total_spaces = trim($_POST['total_spaces'] ?? '');
+    $address = trim($_POST['address']);
+    $coordinate_x = floatval($_POST['coordinate_x']);
+    $coordinate_y = floatval($_POST['coordinate_y']);
+    $total_spaces = intval($_POST['total_spaces']);
 
-    if ($address === '') {
-        $errors[] = 'Адрес обязателен.';
-    }
+    if ($address && $coordinate_x && $coordinate_y && $total_spaces > 0) {
+        $stmt = mysqli_prepare($db, "INSERT INTO parking_zones (address, coordinate_x, coordinate_y, total_spaces, created_at) VALUES (?, ?, ?, ?, NOW())");
+        mysqli_stmt_bind_param($stmt, "sddi", $address, $coordinate_x, $coordinate_y, $total_spaces);
+        mysqli_stmt_execute($stmt);
 
-    if ($coordinate_x === '' || !is_numeric($coordinate_x)) {
-        $errors[] = 'Координата X (долгота) должна быть числом.';
-    }
-
-    if ($coordinate_y === '' || !is_numeric($coordinate_y)) {
-        $errors[] = 'Координата Y (широта) должна быть числом.';
-    }
-
-    if ($total_spaces === '' || !ctype_digit($total_spaces) || intval($total_spaces) <= 0) {
-        $errors[] = 'Количество мест должно быть положительным целым числом.';
-    }
-
-    if (empty($errors)) {
-        $coordinate_x = floatval($coordinate_x);
-        $coordinate_y = floatval($coordinate_y);
-        $total_spaces = intval($total_spaces);
-
-        $stmt = $db->prepare("
-            INSERT INTO parking_zones (address, coordinate_x, coordinate_y, total_spaces, created_at, updated_at)
-            VALUES (?, ?, ?, ?, NOW(), NOW())
-        ");
-        if ($stmt === false) {
-            $message = 'Ошибка подготовки запроса: ' . htmlspecialchars($db->error);
-        } else {
-            $stmt->bind_param('sddi', $address, $coordinate_x, $coordinate_y, $total_spaces);
-            if ($stmt->execute()) {
-                header("Location: parking_zones.php?created=1");
-                exit;
-            } else {
-                $message = 'Ошибка при добавлении парковки: ' . htmlspecialchars($stmt->error);
-            }
-        }
+        header("Location: parking_zones.php?created=1");
+        exit;
     } else {
-        $message = implode('<br>', array_map('htmlspecialchars', $errors));
+        $error = "Пожалуйста, заполните все поля корректно.";
     }
 }
 ?>
@@ -59,8 +27,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta charset="UTF-8">
     <title>Добавить парковку</title>
     <link rel="stylesheet" href="assets/admin.css">
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <style>
-        /* Небольшие дополнения к admin.css для формы */
         .admin-form { max-width: 640px; margin-top: 20px; }
         .admin-form label { display:block; margin-top:10px; font-weight:600; }
         .admin-form input { width:100%; padding:10px; border:1px solid #ccc; border-radius:6px; box-sizing:border-box; }
@@ -70,6 +38,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         .actions { margin-top:14px; display:flex; gap:10px; align-items:center; }
         .btn-primary { background:#2563eb; color:#fff; padding:10px 14px; border-radius:6px; text-decoration:none; border:none; cursor:pointer; }
         .btn-secondary { background:#e5e7eb; padding:10px 14px; border-radius:6px; text-decoration:none; color:#111; }
+        .admin-content { padding-left: 40px}
+        input, button {
+            width: 100%;
+            padding: 8px 12px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+        }
+        .suggestions {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            margin-top: 4px;
+            position: absolute;
+            width: 100%;
+            z-index: 10;
+        }
+        .suggestions div {
+            padding: 8px 10px;
+            cursor: pointer;
+        }
+        .suggestions div:hover {
+            background: #f3f4f6;
+        }
     </style>
 </head>
 <body>
@@ -79,7 +70,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <h1>Панель администратора</h1>
     </div>
     <nav class="nav">
-        <a href="dashboard.php">Дашборд</a>
+        <a href="dashboard.php">Главная</a>
         <a href="cars.php">Автомобили</a>
         <a href="parking_zones.php" class="active">Парковки</a>
         <a href="users.php">Пользователи</a>
@@ -91,33 +82,72 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <main class="admin-content">
     <h2>Добавить парковку</h2>
 
-    <?php if ($message): ?>
-        <div class="message"><?= $message ?></div>
+    <?php if (isset($error)): ?>
+        <p style="color:red;"><?= htmlspecialchars($error) ?></p>
     <?php endif; ?>
 
-    <form method="POST" class="admin-form" novalidate>
-        <label for="address">Адрес</label>
-        <input id="address" name="address" type="text" value="<?= htmlspecialchars($_POST['address'] ?? '') ?>" placeholder="Например: Москва, ул. Пушкина, 10" required>
-
-        <div class="row">
-            <div class="col">
-                <label for="coordinate_y">Координата Y (широта)</label>
-                <input id="coordinate_y" name="coordinate_y" type="text" value="<?= htmlspecialchars($_POST['coordinate_y'] ?? '') ?>" placeholder="Например: 55.7558" required>
-            </div>
-            <div class="col">
-                <label for="coordinate_x">Координата X (долгота)</label>
-                <input id="coordinate_x" name="coordinate_x" type="text" value="<?= htmlspecialchars($_POST['coordinate_x'] ?? '') ?>" placeholder="Например: 37.6173" required>
-            </div>
+    <form method="POST" id="parkingForm" class="admin-form">
+        <div class="form-group" style="position: relative;">
+            <label for="address">Адрес</label>
+            <input type="text" name="address" id="address" required autocomplete="off" placeholder="Введите адрес...">
+            <div class="suggestions" id="suggestions"></div>
         </div>
 
-        <label for="total_spaces">Количество мест</label>
-        <input id="total_spaces" name="total_spaces" type="number" min="1" value="<?= htmlspecialchars($_POST['total_spaces'] ?? '') ?>" placeholder="Например: 15" required>
-
-        <div class="actions">
-            <button type="submit" class="btn-primary">Добавить парковку</button>
-            <a href="parking_zones.php" class="btn-secondary">Отмена</a>
+        <div class="form-group">
+            <label for="coordinate_x">Координата X (долгота)</label>
+            <input type="text" name="coordinate_x" id="coordinate_x" readonly required>
         </div>
+
+        <div class="form-group">
+            <label for="coordinate_y">Координата Y (широта)</label>
+            <input type="text" name="coordinate_y" id="coordinate_y" readonly required>
+        </div>
+
+        <div class="form-group">
+            <label for="total_spaces">Всего мест</label>
+            <input type="number" name="total_spaces" id="total_spaces" min="1" required>
+        </div>
+
+        <button type="submit" class="btn-primary">Добавить парковку</button>
     </form>
 </main>
+<script>
+const addressInput = document.getElementById("address");
+const suggestionsBox = document.getElementById("suggestions");
+
+let debounceTimer;
+
+addressInput.addEventListener("input", () => {
+    const query = addressInput.value.trim();
+    clearTimeout(debounceTimer);
+
+    if (query.length < 3) {
+        suggestionsBox.innerHTML = "";
+        return;
+    }
+
+    debounceTimer = setTimeout(async () => {
+        try {
+            const res = await fetch(`https://nominatim.openstreetmap.org/search?format=json&addressdetails=1&limit=5&q=${encodeURIComponent(query)}&accept-language=ru`);
+            const data = await res.json();
+
+            suggestionsBox.innerHTML = "";
+            data.forEach(item => {
+                const div = document.createElement("div");
+                div.textContent = item.display_name;
+                div.onclick = () => {
+                    addressInput.value = item.display_name;
+                    document.getElementById("coordinate_x").value = item.lon;
+                    document.getElementById("coordinate_y").value = item.lat;
+                    suggestionsBox.innerHTML = "";
+                };
+                suggestionsBox.appendChild(div);
+            });
+        } catch (err) {
+            console.error(err);
+        }
+    }, 400);
+});
+</script>
 </body>
 </html>

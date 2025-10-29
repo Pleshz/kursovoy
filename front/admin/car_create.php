@@ -41,6 +41,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta charset="UTF-8">
     <title>Добавить автомобиль</title>
     <link rel="stylesheet" href="assets/admin.css">
+    <style>
+        .admin-content {padding-left: 40px}
+    </style>
 </head>
 <body>
 <header class="admin-header">
@@ -50,7 +53,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </div>
     <nav class="nav">
         <a href="dashboard.php">Главная</a>
-        <a href="cars.php" class="active">Машины</a>
+        <a href="cars.php" class="active">Автомобили</a>
         <a href="parking_zones.php">Парковки</a>
         <a href="users.php">Пользователи</a>
         <a href="orders.php">Заказы</a>

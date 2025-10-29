@@ -35,10 +35,9 @@ while ($row = mysqli_fetch_assoc($result)) {
     </nav>
 </header>
 
-<main class="admin-content">
-    <h2>Парковочные зоны</h2>
-
-    <div class="actions">
+<main class="content">
+    <div class="page-header">
+        <h2>Парковочные зоны</h2>
         <a href="parking_create.php" class="btn-primary">Добавить парковку</a>
     </div>
 
@@ -61,10 +60,10 @@ while ($row = mysqli_fetch_assoc($result)) {
                 <td><?= $zone['coordinate_x'] ?>, <?= $zone['coordinate_y'] ?></td>
                 <td><?= $zone['total_spaces'] ?></td>
                 <td><?= $zone['created_at'] ?></td>
-                <td>
-                    <a href="parking_edit.php?id=<?= $zone['id'] ?>" class="btn-small">✏️</a>
+                <td class="actions">
+                    <a href="parking_edit.php?id=<?= $zone['id'] ?>" class="btn-edit">✏️</a>
                     <a href="../../back/services/parking_delete.php?id=<?= $zone['id'] ?>" 
-                       class="btn-small delete-btn" 
+                       class="btn-delete" 
                        onclick="return confirm('Удалить парковку?');">🗑️</a>
                 </td>
             </tr>

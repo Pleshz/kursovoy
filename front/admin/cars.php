@@ -43,10 +43,10 @@ $cars = mysqli_fetch_all($result, MYSQLI_ASSOC);
     </nav>
 </header>
 
-<main class="admin-content">
+<main class="content">
     <div class="page-header">
         <h2>Автомобили</h2>
-        <a href="car_create.php" class="btn-primary">+ Добавить автомобиль</a>
+        <a href="car_create.php" class="btn-primary">Добавить автомобиль</a>
     </div>
 
     <table class="admin-table">

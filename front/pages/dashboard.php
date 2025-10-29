@@ -33,24 +33,6 @@ $role = $_SESSION['role'];
             <p>Добро пожаловать в систему каршеринга RentCar.</p>
             <a href="cars.php" class="main-btn">Посмотреть автомобили</a>
         </section>
-
-        <section class="info-cards">
-            <div class="card">
-                <h3>Ваши заказы</h3>
-                <p>Здесь будут отображаться активные и завершённые заказы.</p>
-                <a href="orders.php" class="link">Перейти</a>
-            </div>
-
-            <div class="card">
-                <h3>Профиль</h3>
-                <p>Редактируйте данные своей учетной записи.</p>
-                <a href="profile.php" class="link">Перейти</a>
-            </div>
-        </section>
     </main>
-
-    <footer class="footer">
-        <p>© <?= date('Y') ?> RentCar. Все права защищены.</p>
-    </footer>
 </body>
 </html>

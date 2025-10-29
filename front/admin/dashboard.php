@@ -33,6 +33,10 @@ $parkingCount = mysqli_fetch_assoc(mysqli_query($db, "SELECT COUNT(*) as cnt FRO
 
 <main class="content">
     <h2>Панель администратора</h2>
+    <div>
+        <a href="../../back/services/export_report.php" class="btn-primary">Скачать отчёт</a>
+    </div>
+
     <div class="stats-container">
         <div class="stat-card">
             <h3>Автомобили</h3>
